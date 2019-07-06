@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  
+
+  {{!------------------------------ MATERIALIZE CSS CDN----------------------- --}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  {{!------------------------------ MATERIALIZE ICONS----------------------- --}}
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  {{!------------------------------ GOOGLE FONTS----------------------- --}}
+  <link href="https://fonts.googleapis.com/css?family=Play:400,700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/style.css">
+
+	{{!-- <style>
+
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
+
+  #test1{
+      color: red;
+
+  }
+    </style> --}}
+
+
+  <title>blah</title>
+</head>
+
+
+<body>  
+    <header>
+
+  <nav class="nav-extended">
+    <div class="nav-wrapper blue-grey">
+      <a href="#" class="brand-logo">Logo</a>
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="sass.html">Sass</a></li>
+        <li><a href="badges.html">Components</a></li>
+        <li><a href="collapsible.html">JavaScript</a></li>
+      </ul>
+    </div>
+    <div class="nav-content">
+      <ul class="tabs tabs-transparent">
+        <li class="tab"><a href="/all">all Articles</a></li>
+        <li class="tab"><a class="active" href="#faves">favorites</a></li>
+        <li class="tab"><a href="#test3">Disabled Tab</a></li>
+        <li class="tab"><a href="#test4">Test 4</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <ul class="sidenav" id="mobile-demo">
+    <li><a href="sass.html">Sass</a></li>
+    <li><a href="badges.html">Components</a></li>
+    <li><a href="collapsible.html">JavaScript</a></li>
+  </ul>
+
+  
+  </header>
+
+  <main>
+    {{{body}}}
+  </main>
+
+
+  <footer class="page-footer blue-grey darken-2">
+    <div class="footer-copyright">
+      <div class="container">
+        © 2019 Copyright Text
+        <a class="grey-text text-lighten-4 right" href="#!"></a>
+      </div>
+    </div>
+  </footer>
+
+  {{!------------------------------ MATERIALIZE  JAVASCRIPT CDN----------------------- --}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+ 
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  
+  <script src="assets/app.js"></script>
+  
+</body>
+
+</html>

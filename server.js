@@ -49,7 +49,7 @@ app.use(express.static("public"));
 app.get("/", (req, res) => res.render("index"));
 
 //GETTING ALL RESULTS
-app.get('/all', (req, res) => {
+app.get('/articles', (req, res) => {
     db.Article.find({}).then((articleInfo) => res.json(articleInfo))
 
         .catch((err) => res.json(err))
@@ -57,8 +57,8 @@ app.get('/all', (req, res) => {
 
 //GETTING ALL ARTCLES THAT WERE LIKED
 
-app.get('/favorites', (req, res) => {
-    db.Article.find({ "favorites": true }, { $sort: { "title": -1 } }).then((err, data) => {
+app.get('/faves', (req, res) => {
+    db.Article.find({ "fave": true }, { $sort: { "title": 1 } }).then((err, data) => {
         if (err) {
             console.log(err)
         }
@@ -69,8 +69,7 @@ app.get('/favorites', (req, res) => {
 })
 
 
-
-
+// route to scrape the site 
 
 app.get("/scrape", function(req, res) {
     // First, we grab the body of the html with axios
@@ -86,24 +85,58 @@ app.get("/scrape", function(req, res) {
         // Add the text and href of every link, and save them as properties of the result object
         result.title = $(this).children().find("span").text()
 
-        result.link = $(this).parent().attr("href");
+        result.link = $(this).parent().attr("href")
   
         // Create a new Article using the `result` object built from scraping
         db.Article.create(result)
           .then(function(dbArticle) {
             // View the added result in the console
-            console.log(dbArticle);
+            console.log(dbArticle)
           })
           .catch(function(err) {
             // If an error occurred, log it
             console.log(err);
-          });
-      });
+          })
+      })
   
       // Send a message to the client
-      res.send("Scrape Complete");
-    });
+      res.send("Scrape Complete")
+    })
+  })
+
+  //
+  app.get("/articles/:id", (req, res) => {
+    // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
+    db.Article.findOne({ _id: req.params.id })
+      // ..and populate all of the notes associated with it
+      .populate("note")
+      .then((dbArticle) => res.json(dbArticle)
+     )
+      .catch( (err) =>  res.json(err) )
   });
+
+  app.post("/articles/:id", (req, res) => {
+    // Create a new note and pass the req.body to the entry
+    db.Note.create(req.body)
+      .then( (dbNote) => {
+        // If a Note was created successfully, find one Article with an `_id` equal to `req.params.id`. Update the Article to be associated with the new Note
+        // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
+        // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
+        return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
+      })
+      .then( (dbArticle) => res.json(dbArticle) )
+
+      .catch( (err) => res.json(err) )
+  })
+
+  //make a route to update the the fave state to true when it is clicked
+
+  app.post("/faves/:id", (req, res) => {
+      db.Article.update({"fave": false}, {$set: {"fave": true}})
+      .then( (dbArticle) => res.json(dbArticle) )
+      .catch( (err) => res.json(err))
+  })
+
 
 
 

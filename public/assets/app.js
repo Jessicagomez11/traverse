@@ -19,6 +19,7 @@ $("#scrapeBtn").on("click", ()=>{
     console.log("i've been clicked!")
     $.getJSON("/all", (data) => {
         displayArticles(data)
+        
     });
     
 })

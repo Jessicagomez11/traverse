@@ -29,11 +29,11 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/scraper", { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/scraper", { useNewUrlParser: true });
 
-var  MONGODB_URI = process.env.MONGODB_URI || "mongodb://jessicagomez11:mongoTraverse19@ds347917.mlab.com:47917/heroku_hm8ht10b"
+// var  MONGODB_URI = process.env.MONGODB_URI || "mongodb://jessicagomez11:mongoTraverse19@ds347917.mlab.com:47917/heroku_hm8ht10b"
 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
+// mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
 
 
 

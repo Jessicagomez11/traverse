@@ -1,5 +1,7 @@
 const displayArticles = (articles)=> {
     $("tbody").empty()
+
+   
     // Add to the table here...
   
    articles.forEach((article) => {
@@ -26,6 +28,8 @@ const displayArticles = (articles)=> {
     });
 }
 
+//adding an article to favorites
+
 $(document).on("click", "#fave", function (){
 
   var thisId = this.getAttribute("faveData-id");
@@ -37,29 +41,43 @@ $(document).on("click", "#fave", function (){
     url: '/faves/'+ thisId,
   }).then( (data)=>{
     console.log("adding to your favorite articles...")
-    console.log("data: "+data)
-
+    console.log("data: " + data)
   })
-
-  
 })
 
-$(document).on("click", "#addNote", () =>{
+//adding a note
+
+$(document).on("click", "#addNote", function() {
+
+  var thisId = this.getAttribute("faveData-id");
+  console.log(this)
+  console.log(thisId)
 console.log("let's add a note")
   
 })
 
 
+//scraping the site
+$("#scrapeBtn").on("click", () =>{
 
-$(document).on("click", "#scrapeBtn", () =>{
+  getArticles()
 
+  $.getJSON("/articles", (data) => {
+    
     console.log("i've been clicked!")
-    $.getJSON("/articles", (data) => {
       
-      console.log("data: " + data)
-          console.log("fetching results")
         displayArticles(data)
         $("#scrapeBtn").hide()
     });
     
+   
 })
+
+//getting all articles
+const getArticles = ()=>{
+  $.getJSON("/scrape", (data) => {
+      
+    console.log("data: " + data)
+    console.log("scraping articles....")
+})
+}

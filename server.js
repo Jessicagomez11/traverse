@@ -53,23 +53,13 @@ app.get("/", (req, res) => res.render("index"));
 
 //GETTING ALL RESULTS
 app.get('/articles', (req, res) => {
-    db.Article.find({}).then((articleInfo) => res.json(articleInfo))
+    db.Article.find({})
+    .then((articleInfo) => res.json(articleInfo))
 
-        .catch((err) => res.json(err))
+    .catch((err) => res.json(err))
 })
 
-//GETTING ALL ARTCLES THAT WERE LIKED
 
-app.get('/faves', (req, res) => {
-    db.Article.find({ "fave": true }, { $sort: { "title": 1 } }).then((err, data) => {
-        if (err) {
-            console.log(err)
-        }
-        else {
-            res.json(data)
-        }
-    })
-})
 
 
 // route to scrape the site 
@@ -122,9 +112,7 @@ app.get("/scrape", function(req, res) {
     // Create a new note and pass the req.body to the entry
     db.Note.create(req.body)
       .then( (dbNote) => {
-        // If a Note was created successfully, find one Article with an `_id` equal to `req.params.id`. Update the Article to be associated with the new Note
-        // { new: true } tells the query that we want it to return the updated User -- it returns the original by default
-        // Since our mongoose query returns a promise, we can chain another `.then` which receives the result of the query
+      
         return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
       })
       .then( (dbArticle) => res.json(dbArticle) )
@@ -135,10 +123,17 @@ app.get("/scrape", function(req, res) {
   //make a route to update the the fave state to true when it is clicked
 
   app.post("/faves/:id", (req, res) => {
-      db.Article.update({"fave": false}, {$set: {"fave": true}})
+      db.Article.updateOne( {_id: (req.params.id)}, {$set: {"fave": true}})
       .then( (dbArticle) => res.json(dbArticle) )
       .catch( (err) => res.json(err))
   })
+  //GETTING ALL ARTCLES THAT WERE LIKED
+
+app.get('/faves', (req, res) => {
+    db.Article.find({ "fave": true })
+    .then( (dbArticle )  =>  res.json(dbArticle ) )
+    .catch( (err) => res.json(err) )
+})
 
 
 

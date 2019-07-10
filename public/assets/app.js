@@ -5,26 +5,19 @@ const displayArticles = (articles)=> {
     // Add to the table here...
   
    articles.forEach((article) => {
-  
+   
+    console.log(article._id)
      let newArticle = $("<tr>").append(
         $("<td>").text(article.title),
         $("<td>").text(article.link).attr("href", article.link),
-        $("<td>").append("<button id = "+ "addNote" + " class= " +" btn-floating btn-large waves-effect waves-light modal-trigger"+"><i class=" + "material-icons" +">mode_comment</i>"),
+        $("<td>").append(`<button id=addNote class="btn-floating btn-large waves-effect waves-light modal-trigger" noteData-id=${article._id} ><i class= "material-icons" >mode_comment</i></button>`),
+        $("<td>").append(`<button id=fave class="btn-floating pink lighten-4 btn-large waves-effect waves-light modal-trigger" faveData-id=${article._id} ><i class= "material-icons" >grade</i></button>`),
         
-        $("<td>").append("<button>")
-        .attr("faveData-id", article._id)
-        .attr("id", "fave")
-        .attr("class", "btn-floating btn-large waves-effect waves-light pink modal-trigger" )
-       
-        // id = "+ "fave" + " class= " +" btn-floating btn-large waves-effect waves-light pink modal-trigger"+"><i class=" + "material-icons" +">grade</i>"),
-       
       )
 
       $("tbody").append(newArticle)
       
-      // document.getElementById("fave").setAttribute("faveData-id", article._id)
-      // document.getElementById("addNote").setAttribute("noteData-id", article._id)
-      
+    
     });
 }
 
@@ -58,9 +51,9 @@ console.log("let's add a note")
 
 
 //scraping the site
-$("#scrapeBtn").on("click", () =>{
+$("#articlesBtn").on("click", () =>{
 
-  getArticles()
+
 
   $.getJSON("/articles", (data) => {
     
@@ -73,11 +66,16 @@ $("#scrapeBtn").on("click", () =>{
    
 })
 
+
 //getting all articles
-const getArticles = ()=>{
+$("#scrapeBtn").on("click", () =>{
+
   $.getJSON("/scrape", (data) => {
       
     console.log("data: " + data)
     console.log("scraping articles....")
+}).then( ()=>{
+  displayArticles()
 })
-}
+
+})
